@@ -1,0 +1,17 @@
+{
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "Firefox ESR"
+  ],
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.17.0",
+    "autoprefixer": "^7.1.6",
+    "bootstrap-sass": "^3.3.7",
+    "jquery": "^3.2.1",
+    "node-sass": "^4.7.2",
+    "postcss-loader": "^2.0.9",
+    "sass-loader": "^6.0.6",
+    "webpack-notifier": "^1.5.0"
+  }
+}
