@@ -1,4 +1,4 @@
-require('../scss/global.scss');
+require('../scss/main.scss');
 
 var $ = require('jquery');
 
