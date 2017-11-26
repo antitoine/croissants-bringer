@@ -1,15 +1,15 @@
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
-header {
-  margin-bottom: 20px;
-  border-bottom: 1px solid #ccc;
-
-  & nav > ul {
-    margin-top: 10px;
+.header {
+  & .navbar.navbar-default {
+    border-radius: 0;
+    background-color: transparent;
+    border-width: 0;
+    border-bottom-width: 1px;
   }
 }
 
-footer {
+.footer {
   margin-bottom: 20px;
   text-align: center;
 }
