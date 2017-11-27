@@ -26,11 +26,11 @@
         <![endif]-->
     </head>
     <body>
+        {% embed 'header.html.twig' %}{% endembed %}
         <div class="container">
-            {% embed 'header.html.twig' %}{% endembed %}
             {% block content %}{% endblock %}
-            {% embed 'footer.html.twig' %}{% endembed %}
         </div>
+        {% embed 'footer.html.twig' %}{% endembed %}
         <script src="{{ asset('build/main.js') }}"></script>
         {% block extra_javascripts %}{% endblock %}
     </body>

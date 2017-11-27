@@ -26,11 +26,13 @@ class User extends BaseUser
     protected $participationList;
 
     /**
+     * Position 0 => croissants bringer of the week
+     * Position >0 => next croissants bringer for others weeks
      * @var integer
      *
-     * @ORM\Column(name="rejected_count", type="integer")
+     * @ORM\Column(name="position", type="integer")
      */
-    protected $rejectedCount;
+    protected $position;
 
     public function __construct()
     {
@@ -58,9 +60,9 @@ class User extends BaseUser
      */
     public function addParticipation(Participation $participation)
     {
-        /** @var Participation $participationMade */
-        foreach($this->participationList as $participationMade) {
-            if ($participation->getId() === $participationMade->getId()) {
+        /** @var Participation $participationDone */
+        foreach($this->participationList as $participationDone) {
+            if ($participation->getId() === $participationDone->getId()) {
                 return;
             }
         }
@@ -70,16 +72,14 @@ class User extends BaseUser
     /**
      * @return int
      */
-    public function getRejectedCount()
-    {
-        return $this->rejectedCount;
+    public function getPosition() {
+        return $this->position;
     }
 
     /**
-     * @param int $rejectedCount
+     * @param int $position
      */
-    public function setRejectedCount($rejectedCount)
-    {
-        $this->rejectedCount = $rejectedCount;
+    public function setPosition( $position ) {
+        $this->position = $position;
     }
 }

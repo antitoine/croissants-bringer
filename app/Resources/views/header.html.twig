@@ -29,12 +29,12 @@
                         </a>
                         <ul class="dropdown-menu">
                             {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                <li><a href="{{ path('fos_user_profile_show') }}">My account</a></li>
+                                <li><a href="{{ path('fos_user_profile_show') }}">{{ 'layout.my_account'|trans({}, 'layout') }}</a></li>
                                 <li role="separator" class="divider"></li>
-                                <li><a href="{{ path('fos_user_security_logout') }}">Logout</a></li>
+                                <li><a href="{{ path('fos_user_security_logout') }}">{{ 'layout.logout'|trans({}, 'FOSUserBundle') }}</a></li>
                             {% else %}
-                                <li><a href="{{ path('fos_user_security_login') }}">Login</a></li>
-                                <li><a href="{{ path('fos_user_registration_register') }}">Sign up</a></li>
+                                <li><a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a></li>
+                                <li><a href="{{ path('fos_user_registration_register') }}">{{ 'layout.register'|trans({}, 'FOSUserBundle') }}</a></li>
                             {% endif %}
                         </ul>
                     </li>
