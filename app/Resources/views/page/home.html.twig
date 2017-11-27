@@ -2,12 +2,9 @@
 
 {% block content %}
     <div class="well well-lg">
-        <h1>Be the next croissants bringer !</h1>
-        <p class="lead">
-            Participate to the big croissants party every friday morning.
-            To do so, register yourself to this app with your toHero email in order to be in the list of participants.
-        </p>
-        <p><a class="btn btn-lg btn-success" href="{{ path('fos_user_registration_register') }}" role="button">Sign up</a></p>
+        <h1>{{ 'head.title'|trans({}, 'home') }}</h1>
+        <p class="lead">{{ 'head.text'|trans({}, 'home') }}</p>
+        <p><a class="btn btn-lg btn-success" href="{{ path('fos_user_registration_register') }}" role="button">{{ 'head.register'|trans({}, 'home') }}</a></p>
     </div>
 
     <div class="row marketing">
