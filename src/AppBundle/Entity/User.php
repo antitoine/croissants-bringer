@@ -20,6 +20,16 @@ class User extends BaseUser
     protected $id;
 
     /**
+     * @Assert\Length(
+     *     min=3,
+     *     max=5,
+     *     minMessage="user.password.short",
+     *     groups={"Profile", "ResetPassword", "Registration", "ChangePassword"}
+     * )
+     */
+    protected $username;
+
+    /**
      * @var array
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Participation", mappedBy="user")
