@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -17,6 +18,22 @@ class User extends BaseUser
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="slack_id", type="string", length=255)
+     *
+     * @Assert\NotBlank(message="Please enter your slack nickname.", groups={"Registration", "Profile"})
+     * @Assert\Length(
+     *     min=3,
+     *     max=5,
+     *     minMessage="The slack nickname is too short.",
+     *     maxMessage="The slack nickname is too long.",
+     *     groups={"Registration", "Profile"}
+     * )
+     */
+    protected $slackId;
 
     /**
      * @var array
@@ -37,6 +54,22 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlackId()
+    {
+        return $this->slackId;
+    }
+
+    /**
+     * @param string $slackId
+     */
+    public function setSlackId($slackId)
+    {
+        $this->slackId = $slackId;
     }
 
     /**

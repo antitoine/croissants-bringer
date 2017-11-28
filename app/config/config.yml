@@ -78,6 +78,9 @@ fos_user:
     from_email:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
+    registration:
+        form:
+            type: AppBundle\Form\RegistrationType
 
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/DoctrineMigrations"
