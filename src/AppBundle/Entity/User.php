@@ -20,22 +20,6 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="slack_id", type="string", length=255)
-     *
-     * @Assert\NotBlank(message="Please enter your slack nickname.", groups={"Registration", "Profile"})
-     * @Assert\Length(
-     *     min=3,
-     *     max=5,
-     *     minMessage="The slack nickname is too short.",
-     *     maxMessage="The slack nickname is too long.",
-     *     groups={"Registration", "Profile"}
-     * )
-     */
-    protected $slackId;
-
-    /**
      * @var array
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Participation", mappedBy="user")
@@ -54,22 +38,6 @@ class User extends BaseUser
     public function __construct()
     {
         parent::__construct();
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlackId()
-    {
-        return $this->slackId;
-    }
-
-    /**
-     * @param string $slackId
-     */
-    public function setSlackId($slackId)
-    {
-        $this->slackId = $slackId;
     }
 
     /**

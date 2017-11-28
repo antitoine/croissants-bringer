@@ -19,20 +19,22 @@ class Participation
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="date", type="date")
      */
-    private $date;
+    protected $date;
 
     /**
+     * @var User
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="participationList")
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
-    private $user;
+    protected $user;
 
     /**
      * Get id
@@ -66,6 +68,22 @@ class Participation
     public function getDate()
     {
         return $this->date;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
     }
 }
 
