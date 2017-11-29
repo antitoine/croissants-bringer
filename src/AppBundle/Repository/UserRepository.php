@@ -2,26 +2,41 @@
 
 namespace AppBundle\Repository;
 
+use FOS\UserBundle\Doctrine\UserManager;
+
 /**
  * UserRepository
  */
-class UserRepository extends \Doctrine\ORM\EntityRepository
+class UserRepository extends UserManager
 {
     public function findCroissantsBringer()
     {
-        $query = $this
+        return $this
             ->createQueryBuilder('u')
-            ->where('u.position = (SELECT MIN(u2.position) FROM AppBundle:User u2)');
-        return $query->getQuery()->getOneOrNullResult();
+            ->orderBy('u.position', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
     }
 
-    public function updateCroissantsBringer(User $bringer)
+    public function resetUserPosition($userId)
     {
-        // TODO
+        return $this
+            ->createQueryBuilder('u')
+            ->update('AppBundle:User', 'u')
+            ->set('u.position', ':position')
+            ->setParameter('position', 0)
+            ->where('u.id = :id')
+            ->setParameter('id', $userId)
+            ->getQuery()
+            ->execute();
     }
 
-    public function decrementUsersPosition()
+    public function incrementUsersPosition()
     {
-        // TODO
+        return $this
+            ->getEntityManager()
+            ->createQuery('UPDATE AppBundle:User u SET u.position = u.position + 1')
+            ->execute();
     }
 }
