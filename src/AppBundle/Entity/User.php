@@ -37,13 +37,19 @@ class User extends BaseUser
     protected $participationList;
 
     /**
-     * Position 0 => croissants bringer of the week
-     * Position >0 => next croissants bringer for others weeks
+     * More the position is high, more the user have chance to be the croissant bringer
      * @var integer
      *
      * @ORM\Column(name="position", type="integer")
      */
     protected $position = 0;
+
+    /**
+     * @var bool
+     *
+     * @ORM\Column(name="participant", type="boolean")
+     */
+    protected $participant = false;
 
     public function __construct()
     {
@@ -92,5 +98,21 @@ class User extends BaseUser
      */
     public function setPosition( $position ) {
         $this->position = $position;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isParticipant()
+    {
+        return $this->participant;
+    }
+
+    /**
+     * @param bool $participant
+     */
+    public function setParticipant($participant)
+    {
+        $this->participant = $participant;
     }
 }
