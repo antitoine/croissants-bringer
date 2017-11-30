@@ -33,6 +33,3 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
-
-    AppBundle\Repository\UserRepository:
-        parent: fos_user.user_manager.default

@@ -2,12 +2,12 @@
 
 namespace AppBundle\Repository;
 
-use FOS\UserBundle\Doctrine\UserManager;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * UserRepository
  */
-class UserRepository extends UserManager
+class UserRepository extends EntityRepository
 {
     public function findCroissantsBringer()
     {

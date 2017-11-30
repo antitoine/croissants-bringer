@@ -29,6 +29,10 @@ class CroissantsPartyCommand extends ContainerAwareCommand
         /** @var User $user */
         $user = $userRepository->findCroissantsBringer();
 
-        $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Bringer: ' . $user->getUsername());
+        if (!is_null($user)) {
+            $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Bringer: ' . $user->getUsername());
+        } else {
+            $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer');
+        }
     }
 }
