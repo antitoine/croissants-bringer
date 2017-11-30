@@ -18,7 +18,7 @@
                         <a href="{{ path('home') }}">Home</a>
                     </li>
                     <li role="presentation" class="{% if app.request.attributes.get('_route') == 'participants' %}active{% endif %}">
-                        <a href="#">Participants</a>
+                        <a href="{{ path('participants') }}">Participants</a>
                     </li>
                     <li role="presentation" class="{% if app.request.attributes.get('_route') == 'history' %}active{% endif %}">
                         <a href="#">History</a>

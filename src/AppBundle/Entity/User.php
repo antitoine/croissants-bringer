@@ -43,7 +43,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="position", type="integer")
      */
-    protected $position;
+    protected $position = 0;
 
     public function __construct()
     {
