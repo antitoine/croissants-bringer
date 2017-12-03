@@ -48,3 +48,7 @@ participants:
 profile:
   show:
     position: 'Current position'
+    status:
+      title: Status
+      active: Active
+      inactive: Inactive

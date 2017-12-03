@@ -20,7 +20,11 @@ class ParticipantsController extends Controller
     {
         $userRepository = $this->get('doctrine')->getRepository('AppBundle:User');
 
-        $participants = $userRepository->findBy([], ['position' => 'DESC']);
+        $participants = $userRepository->findBy([
+            'participant' => true,
+        ], [
+            'position' => 'DESC',
+        ]);
 
         return $this->render('page/participants.html.twig', [
             'participants' => $participants,

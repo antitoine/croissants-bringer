@@ -9,6 +9,9 @@
 
     <dt>{{ 'profile.show.position'|trans({}, 'croissants') }}</dt>
     <dd>{{ user.position }}</dd>
+
+    <dt>{{ 'profile.show.status.title'|trans({}, 'croissants') }}</dt>
+    <dd>{{ user.participant ? 'profile.show.status.active'|trans({}, 'croissants') : 'profile.show.status.inactive'|trans({}, 'croissants') }}</dd>
 </dl>
 
 <div class="text-center">

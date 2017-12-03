@@ -49,7 +49,7 @@ class User extends BaseUser
      *
      * @ORM\Column(name="participant", type="boolean")
      */
-    protected $participant = false;
+    protected $participant = true;
 
     public function __construct()
     {
