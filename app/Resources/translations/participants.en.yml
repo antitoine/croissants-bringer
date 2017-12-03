@@ -1,0 +1,6 @@
+table:
+  description: More the position is high more the user have chance to be the next croissants bringer.
+  position: Position
+  username: Username
+  email: Email
+  participation_number: Number of participation

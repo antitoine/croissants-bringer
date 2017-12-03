@@ -1,10 +1,12 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'home' %}
+
 {% block content %}
     <div class="well well-lg">
-        <h1>{{ 'head.title'|trans({}, 'home') }}</h1>
-        <p class="lead">{{ 'head.text'|trans({}, 'home') }}</p>
-        <p><a class="btn btn-lg btn-success" href="{{ path('fos_user_registration_register') }}" role="button">{{ 'head.register'|trans({}, 'home') }}</a></p>
+        <h1>{{ 'head.title'|trans }}</h1>
+        <p class="lead">{{ 'head.text'|trans }}</p>
+        <p><a class="btn btn-lg btn-success" href="{{ path('fos_user_registration_register') }}" role="button">{{ 'head.register'|trans }}</a></p>
     </div>
 
     <div class="row marketing">

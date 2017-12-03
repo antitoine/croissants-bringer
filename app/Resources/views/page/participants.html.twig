@@ -1,14 +1,16 @@
 {% extends 'base.html.twig' %}
 
+{% trans_default_domain 'participants' %}
+
 {% block content %}
     <table class="table">
-        <caption>Optional table caption.</caption>
+        <caption>{{ 'table.description'|trans }}</caption>
         <thead>
         <tr>
-            <th>Position</th>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Number of participation</th>
+            <th>{{ 'table.position'|trans }}</th>
+            <th>{{ 'table.username'|trans }}</th>
+            <th>{{ 'table.email'|trans }}</th>
+            <th>{{ 'table.participation_number'|trans }}</th>
         </tr>
         </thead>
         <tbody>
