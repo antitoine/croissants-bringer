@@ -1,41 +1,32 @@
 {% extends 'base.html.twig' %}
 
-{% trans_default_domain 'home' %}
+{% trans_default_domain 'croissants' %}
 
 {% block content %}
     <div class="well well-lg">
-        <h1>{{ 'head.title'|trans }}</h1>
-        <p class="lead">{{ 'head.text'|trans }}</p>
-        <p><a class="btn btn-lg btn-success" href="{{ path('fos_user_registration_register') }}" role="button">{{ 'head.register'|trans }}</a></p>
+        <h1>{{ 'home.head.title'|trans }}</h1>
+        <p class="lead">{{ 'home.head.text'|trans }}</p>
+        <p><a class="btn btn-lg btn-success" href="{{ path('fos_user_registration_register') }}" role="button">{{ 'home.head.register'|trans }}</a></p>
     </div>
 
     <div class="row marketing">
         <div class="col-lg-6">
-            <h2>How does it work ?</h2>
-            <p>
-                Every monday, someone in the participant list will be selected to be the croissants bringer of the week.
-                You will receive a slack message to ask you if you can bring croissants this friday and you need to respond yes or no.
-            </p>
+            <h2>{{ 'home.content.working'|trans }}</h2>
+            <p>{{ 'home.content.working_description'|trans }}</p>
 
-            <h3>Yes, you can !</h3>
-            <p>
-                Great! You will need to buy croissants this friday.
-                Try to know how many people will be present friday morning, and buy one or two croissants by participants.
-            </p>
+            <h3>{{ 'home.content.yes'|trans }}</h3>
+            <p>{{ 'home.content.yes_description'|trans }}</p>
 
-            <h3>No, you can't...</h3>
-            <p>
-                It's not a big deal, but prepare yourself to be the croissants bringer the next week.
-                Another toHero participant will be selected for this week.
-            </p>
+            <h3>{{ 'home.content.no'|trans }}</h3>
+            <p>{{ 'home.content.no_description'|trans }}</p>
         </div>
 
         <div class="col-lg-6">
-            <h2>How the croissants bringer is selected ?</h2>
-            <p>
-                The algorithms is very fair! Any participant will be the croissants bringer.
-                The one with the lowest participation will be selected and every things is stored in database (soon in blockchain to be sure).
-            </p>
+            <h2>{{ 'home.content.selection_proccess'|trans }}</h2>
+            <p>{{ 'home.content.selection_proccess_description'|trans }}</p>
+
+            <h2>{{ 'home.content.stop'|trans }}</h2>
+            <p>{{ 'home.content.stop_description'|trans }}</p>
         </div>
     </div>
 {% endblock %}

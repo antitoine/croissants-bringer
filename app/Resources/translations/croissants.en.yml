@@ -1,0 +1,50 @@
+layout:
+  my_account: 'My account'
+  menu:
+    home: Home
+    participants: Participants
+    history: History
+
+home:
+  head:
+    title: 'Be the next croissants bringer !'
+    register: 'Sign up'
+    text: |
+      Participate to the big croissants party every friday morning.
+      To do so, register yourself to this app with your toHero email in order to be in the list of participants.
+  content:
+    working: 'How does it work ?'
+    working_description: |
+      Every monday, someone in the participant list will be selected to be the croissants bringer of the week.
+      You will receive a slack message to ask you if you can bring croissants this friday and you need to respond yes or no.
+    yes: 'Yes, you can !'
+    yes_description: |
+      Great! You will need to buy croissants this friday.
+      Try to know how many people will be present friday morning, and buy one or two croissants by participants.
+    no: "No, you can't..."
+    no_description: |
+      It's not a big deal, but prepare yourself to be the croissants bringer the next week.
+      Another toHero participant will be selected for this week.
+    selection_proccess: 'How the croissants bringer is selected ?'
+    selection_proccess_description: |
+      The algorithm is as honest as possible! All participants will bring crescents while respecting fairness.
+      The person with the largest position will be selected. Once accepted, its position is equal to the total number of participants.
+      To each new provider of croissants, all positions are decremented by one position, so we find a principle of waiting thread.
+      The new entrants start from the zero position and therefore will not immediately be the next contributor.
+      All participations are recorded in the database (and soon in the blockchain).
+    stop: 'And if I want to stop ?'
+    stop_description: |
+      You can stop whenever you want and for whatever reason (plan, savings, strikes...).
+      To do this, go to your account and change your status to inactive.
+
+participants:
+  table:
+    description: 'More the position is high more the user have chance to be the next croissants bringer.'
+    position: Position
+    username: Username
+    email: Email
+    participation_number: 'Number of participation'
+
+profile:
+  show:
+    position: 'Current position'

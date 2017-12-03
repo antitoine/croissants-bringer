@@ -1,0 +1,50 @@
+layout:
+  my_account: 'Mon compte'
+  menu:
+    home: Accueil
+    participants: Participants
+    history: Historique
+
+home:
+  head:
+    title: 'Devient le prochain apporteur de croissants !'
+    register: "S'inscrire"
+    text: |
+      Participe aux croissants tous les vendredis matins.
+      Pour cela, enregistre toi à cette application avec ton mail toHero pour être dans la liste des participants.
+  content:
+    working: 'Comment cela fonctionne ?'
+    working_description: |
+      Tous les lundis, quelqu'un dans la liste des participants est sélectionné pour être le prochain apporteur de croissants.
+      Un message slack te sera alors envoyé afin que tu comfirme si tu peux apporter les croissants ce vendredi. Tu devras répondre par oui ou par non.
+    yes: 'Oui, tu peux !'
+    yes_description: |
+      Super ! Ton rôle va être d'acheter des croissants pour le vendredi matin.
+      Essaye de savoir combien de personne seront là ce vendredi matin et achète un ou deux croissants/pain au chocolats par participant.
+    no: 'Non, tu ne peux pas...'
+    no_description: |
+      Ne n'est pas très grave, mais prépare toi à être le prochain apporteur de croissant la semaine prochaine.
+      Un autre participant va être sélectionné pour te remplacer.
+    selection_proccess: "Comment l'apporteur de croissants est sélectionné ?"
+    selection_proccess_description: |
+      L'algorithme est le plus honnête possible ! Tous les participants seront des apporteurs de croissants en respectant l'équité.
+      La personne avec la position la plus grande sera sélectionné. Une fois accepté, sa position est égale au nombre de participant total.
+      À chaque nouveau apporteur de croissants, toutes les positions sont décrémentées de une position, ainsi on retrouve un principe de fil d'attente.
+      Les nouveaux participants commence à la position zéro et donc ne seront pas dans l'immédiat le prochain apporteur.
+      Toutes les participations sont enregistrées dans la base de données (et bientôt dans la blockchain).
+    stop: 'Et si je veux arrêter ?'
+    stop_description: |
+      Tu peux arrêter quand tu le souhaites et peut importe la raison (régime, économies, grèves...).
+      Pour cela, va dans ton compte et change ton statut pour passer en inactif.
+
+participants:
+  table:
+    description: "Plus la position est haute, plus l'utilisateur a de chance d'être le prochain apporteur de croissants."
+    position: Position
+    username: Nom d'utilisateur
+    email: Email
+    participation_number: 'Nombre de participation'
+
+profile:
+  show:
+    position: 'Position actuelle'
