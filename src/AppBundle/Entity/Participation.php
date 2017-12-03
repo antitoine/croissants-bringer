@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Enum\ParticipationStatusEnum;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,6 +36,13 @@ class Participation
      * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
      */
     protected $user;
+
+    /**
+     * @var string match a status available in the {@see ParticipationStatusEnum} class
+     *
+     * @ORM\Column(name="status", type="string", length=255, nullable=false)
+     */
+    protected $status;
 
     /**
      * Get id
@@ -84,6 +92,28 @@ class Participation
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return string
+     * @see ParticipationStatusEnum
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @see ParticipationStatusEnum
+     */
+    public function setStatus($status)
+    {
+        if (!in_array($status, ParticipationStatusEnum::getAvailableStatus())) {
+            throw new \InvalidArgumentException('Invalid status');
+        }
+
+        $this->status = $status;
     }
 }
 
