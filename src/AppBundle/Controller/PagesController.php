@@ -1,0 +1,51 @@
+<?php
+
+namespace AppBundle\Controller;
+
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+
+class PagesController extends Controller
+{
+    /**
+     * @Route("/", name="home")
+     */
+    public function homePageAction(Request $request)
+    {
+        return $this->render('page/home.html.twig');
+    }
+
+    /**
+     * @Route("/participants", name="participants")
+     */
+    public function participantsPageAction(Request $request)
+    {
+        $userRepository = $this->get('doctrine')->getRepository('AppBundle:User');
+
+        $participants = $userRepository->findBy([
+            'participant' => true,
+        ], [
+            'position' => 'DESC',
+        ]);
+
+        return $this->render('page/participants.html.twig', [
+            'participants' => $participants,
+        ]);
+    }
+
+
+    /**
+     * @Route("/history", name="history")
+     */
+    public function historyPageAction(Request $request)
+    {
+        $participationRepository = $this->get('doctrine')->getRepository('AppBundle:Participation');
+
+        $participationList = $participationRepository->findBy([], ['date' => 'DESC']);
+
+        return $this->render('page/history.html.twig', [
+            'participationList' => $participationList,
+        ]);
+    }
+}

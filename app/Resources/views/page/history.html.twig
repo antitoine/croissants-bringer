@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% trans_default_domain 'croissants' %}
+
+{% block content %}
+    <table class="table">
+        <caption>{{ 'history.table.description'|trans }}</caption>
+        <thead>
+        <tr>
+            <th>{{ 'history.table.date'|trans }}</th>
+            <th>{{ 'history.table.username'|trans }}</th>
+            <th>{{ 'history.table.email'|trans }}</th>
+            <th>{{ 'history.table.status'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for participation in participationList %}
+            <tr>
+                <th scope="row">{{ participation.date|date("Y/m/d H:i:s") }}</th>
+                <td>{{ participation.user.username }}</td>
+                <td>{{ participation.user.email }}</td>
+                <td>{{ participation.status }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

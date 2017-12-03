@@ -23,7 +23,7 @@
                         <a href="{{ path('participants') }}">{{ 'layout.menu.participants'|trans }}</a>
                     </li>
                     <li role="presentation" class="{% if app.request.attributes.get('_route') == 'history' %}active{% endif %}">
-                        <a href="#">{{ 'layout.menu.history'|trans }}</a>
+                        <a href="{{ path('history') }}">{{ 'layout.menu.history'|trans }}</a>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
