@@ -17,7 +17,7 @@ class PagesController extends Controller
     }
 
     /**
-     * @Route("/participants", name="participants")
+     * @Route("/participant", name="participant")
      */
     public function participantsPageAction(Request $request)
     {
@@ -33,7 +33,6 @@ class PagesController extends Controller
             'participants' => $participants,
         ]);
     }
-
 
     /**
      * @Route("/history", name="history")
