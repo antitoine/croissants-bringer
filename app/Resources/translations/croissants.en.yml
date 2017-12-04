@@ -45,6 +45,17 @@ participants:
     email: Email
     participation_number: 'Number of participation'
 
+history:
+  table:
+    description: |
+      Pending: waiting response from the bringer /
+      Validated: the bringer has confirmed that he will bring the croissants /
+      Done: previous bringers
+    date: Date
+    username: Username
+    email: Email
+    status: Status
+
 profile:
   show:
     position: 'Current position'
