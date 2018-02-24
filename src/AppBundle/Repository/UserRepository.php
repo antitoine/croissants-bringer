@@ -2,23 +2,36 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\NonUniqueResultException;
 
 /**
  * UserRepository
  */
 class UserRepository extends EntityRepository
 {
+    /**
+     * @return User|null
+     */
     public function findCroissantsBringer()
     {
-        return $this
-            ->createQueryBuilder('u')
-            ->orderBy('u.position', 'DESC')
-            ->setMaxResults(1)
-            ->getQuery()
-            ->getOneOrNullResult();
+        try {
+            return $this
+                ->createQueryBuilder('u')
+                ->orderBy('u.position', 'DESC')
+                ->setMaxResults(1)
+                ->getQuery()
+                ->getOneOrNullResult();
+        } catch (NonUniqueResultException $e) {
+            return null;
+        }
     }
 
+    /**
+     * @param $userId string|integer the user ID
+     * @return mixed
+     */
     public function resetUserPosition($userId)
     {
         return $this
@@ -32,6 +45,9 @@ class UserRepository extends EntityRepository
             ->execute();
     }
 
+    /**
+     * @return mixed
+     */
     public function incrementUsersPosition()
     {
         return $this

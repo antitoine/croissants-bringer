@@ -23,7 +23,7 @@ class Participation
     protected $id;
 
     /**
-     * @var \DateTime
+     * @var \DateTime the date of the mission (a friday day)
      *
      * @ORM\Column(name="date", type="datetime")
      */

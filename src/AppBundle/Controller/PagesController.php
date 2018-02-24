@@ -13,6 +13,9 @@ class PagesController extends Controller
 {
     /**
      * @Route("/", name="home")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function homePageAction(Request $request)
     {
@@ -21,6 +24,9 @@ class PagesController extends Controller
 
     /**
      * @Route("/participant", name="participant")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function participantsPageAction(Request $request)
     {
@@ -39,6 +45,9 @@ class PagesController extends Controller
 
     /**
      * @Route("/history", name="history")
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function historyPageAction(Request $request)
     {
