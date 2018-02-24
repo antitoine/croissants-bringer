@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Participation;
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,21 +16,21 @@ class PagesController extends Controller
     /**
      * @Route("/", name="home")
      *
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function homePageAction(Request $request)
+    public function homePageAction()
     {
-        return $this->render('page/home.html.twig');
+        return $this->render('page/home.html.twig', [
+            'alertList' => $this->getAlerts(),
+        ]);
     }
 
     /**
      * @Route("/participant", name="participant")
      *
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function participantsPageAction(Request $request)
+    public function participantsPageAction()
     {
         $userRepository = $this->get('doctrine')->getRepository('AppBundle:User');
 
@@ -40,16 +42,16 @@ class PagesController extends Controller
 
         return $this->render('page/participants.html.twig', [
             'participants' => $participants,
+            'alertList' => $this->getAlerts(),
         ]);
     }
 
     /**
      * @Route("/history", name="history")
      *
-     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function historyPageAction(Request $request)
+    public function historyPageAction()
     {
         $participationRepository = $this->get('doctrine')->getRepository('AppBundle:Participation');
 
@@ -57,6 +59,47 @@ class PagesController extends Controller
 
         return $this->render('page/history.html.twig', [
             'participationList' => $participationList,
+            'alertList' => $this->getAlerts(),
         ]);
+    }
+
+    /**
+     * @return array
+     */
+    protected function getAlerts()
+    {
+        $alertList = [];
+
+        if (!$this->isGranted('IS_AUTHENTICATED_FULLY')) {
+            return $alertList;
+        }
+
+        /** @var User $user */
+        $user = $this->getUser();
+        if (!$user) {
+            return $alertList;
+        }
+
+        $participationRepository = $this->get('doctrine')->getRepository('AppBundle:Participation');
+
+        /** @var Participation $lastParticipation */
+        $lastParticipation = $participationRepository->findLastParticipation();
+        if (!$lastParticipation) {
+            return $alertList;
+        }
+
+        if ($lastParticipation->NeedAccomplishConfirmation()) {
+            $alertList[] = [
+                'type' => 'ACCOMPLISH_CONFIRMATION',
+            ];
+        }
+
+        if ($lastParticipation->NeedApprovalFromParticipant() && $lastParticipation->getUser()->getId() === $user->getId()) {
+            $alertList[] = [
+                'type' => 'PARTICIPANT_APPROVAL',
+            ];
+        }
+
+        return $alertList;
     }
 }

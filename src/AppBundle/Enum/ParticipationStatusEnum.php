@@ -6,14 +6,14 @@ namespace AppBundle\Enum;
 abstract class ParticipationStatusEnum
 {
     const STATUS_DONE      = "done"; // Participation complete
-    const STATUS_PENDING   = "pending"; // Participant accept, waiting comfirmation from other that the mission is done
-    const STATUS_WAITING   = "asking"; // Wait participant approval
+    const STATUS_PENDING   = "pending"; // Participant accept, waiting confirmation from other that the mission is done
+    const STATUS_ASKING    = "asking"; // Wait participant approval
 
     /** @var array */
     protected static $typeName = [
         self::STATUS_DONE      => 'Terminé',
-        self::STATUS_PENDING   => 'En attente de réalisation de la mission',
-        self::STATUS_WAITING   => 'En attente de l\'approbation du participant',
+        self::STATUS_PENDING   => 'En attente de la confirmation de la mission',
+        self::STATUS_ASKING    => 'En attente de l\'approbation du participant',
     ];
 
     /**
@@ -37,7 +37,7 @@ abstract class ParticipationStatusEnum
         return [
             self::STATUS_DONE,
             self::STATUS_PENDING,
-            self::STATUS_WAITING,
+            self::STATUS_ASKING,
         ];
     }
 }

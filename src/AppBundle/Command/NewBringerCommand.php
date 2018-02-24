@@ -61,7 +61,7 @@ class NewBringerCommand extends ContainerAwareCommand
 
             // If wa have the confirmation that the mission is done and we are not a friday day
             // a new croissant bringer need to be chosen for the new week
-            if ($lastParticipation->getStatus() === ParticipationStatusEnum::STATUS_DONE && date('w') !== 5) {
+            if ($lastParticipation->NeedNewParticipation()) {
 
                 /** @var Participation $newParticipation */
                 $newParticipation = $this->makeNewParticipation();
@@ -74,7 +74,7 @@ class NewBringerCommand extends ContainerAwareCommand
                 }
 
             // If we haven't confirmation that the mission is done and the mission date is passed, ask for confirmation
-            } else if ($lastParticipation->getStatus() === ParticipationStatusEnum::STATUS_PENDING && $lastParticipation->getDate() < new \DateTime()) {
+            } else if ($lastParticipation->NeedAccomplishConfirmation()) {
 
                 $this->sendRequestToGetConfirmation();
 
@@ -87,7 +87,7 @@ class NewBringerCommand extends ContainerAwareCommand
                 //$this->entityManager->flush();
 
             // If we are still waiting participation response
-            } else if ($lastParticipation->getStatus() === ParticipationStatusEnum::STATUS_WAITING) {
+            } else if ($lastParticipation->NeedApprovalFromParticipant()) {
 
                 // Check if the user is still a participant
                 if ($lastParticipation->getUser()->isParticipant()) {
@@ -112,6 +112,18 @@ class NewBringerCommand extends ContainerAwareCommand
                         $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
                     }
                 }
+            } else {
+                $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Nothing to do for now');
+            }
+
+        } else {
+            $newParticipation = $this->makeNewParticipation();
+
+            if (!is_null($newParticipation)) {
+                $this->sendRequestToBringer($newParticipation->getUser());
+                $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
+            } else {
+                $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
             }
         }
     }
@@ -130,7 +142,7 @@ class NewBringerCommand extends ContainerAwareCommand
         }
 
         $newParticipation = new Participation();
-        $newParticipation->setStatus(ParticipationStatusEnum::STATUS_PENDING);
+        $newParticipation->setStatus(ParticipationStatusEnum::STATUS_ASKING);
         $newParticipation->setDate(self::getNextFriday());
         $newParticipation->setUser($user);
 

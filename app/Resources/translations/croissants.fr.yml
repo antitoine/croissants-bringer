@@ -48,8 +48,8 @@ participants:
 history:
   table:
     description: |
-      Pending: waiting response from the bringer /
-      Validated: the bringer has confirmed that he will bring the croissants /
+      Asking: waiting response from the bringer /
+      Pending: the bringer has confirmed that he will bring the croissants /
       Done: previous bringers
     date: Date
     username: "Nom d'utilisateur"
@@ -63,3 +63,7 @@ profile:
       title: Statut
       active: Actif
       inactive: Inactif
+
+alerts:
+  participant_approval:
+    message: 'Pouvez-vous amener les croissants ce vendredi ? Merci de confirmer au plus vite !'

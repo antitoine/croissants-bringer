@@ -16,7 +16,7 @@
         <tbody>
         {% for participation in participationList %}
             <tr>
-                <th scope="row">{{ participation.date|date("Y/m/d H:i:s") }}</th>
+                <th scope="row">{{ participation.date|date("Y/m/d") }}</th>
                 <td>{{ participation.user.username }}</td>
                 <td>{{ participation.user.email }}</td>
                 <td>{{ participation.status }}</td>

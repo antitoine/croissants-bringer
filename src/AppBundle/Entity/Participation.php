@@ -115,5 +115,29 @@ class Participation
 
         $this->status = $status;
     }
+
+    /**
+     * @return bool true if the participation is in waiting status for approval from the participant
+     */
+    public function NeedApprovalFromParticipant()
+    {
+        return $this->getStatus() === ParticipationStatusEnum::STATUS_ASKING;
+    }
+
+    /**
+     * @return bool true if the participation is in pending status and the due date for accomplish the mission is passed
+     */
+    public function NeedAccomplishConfirmation()
+    {
+        return $this->getStatus() === ParticipationStatusEnum::STATUS_PENDING && $this->getDate() < new \DateTime();
+    }
+
+    /**
+     * @return bool true if the mission is done (status) and we passed the friday day (need a new participation for the new week)
+     */
+    public function NeedNewParticipation()
+    {
+        return $this->getStatus() === ParticipationStatusEnum::STATUS_DONE && date('w') !== 5;
+    }
 }
 

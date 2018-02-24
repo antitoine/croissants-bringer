@@ -1,0 +1,26 @@
+{% trans_default_domain 'croissants' %}
+
+{% if alertList is defined %}
+
+    {% for alert in alertList %}
+
+        {% if alert.type is defined %}
+
+            {% if alert.type == 'PARTICIPANT_APPROVAL' %}
+                <div class="alert alert-warning" role="alert">
+                    {{ 'alerts.participant_approval.message'|trans }}
+                </div>
+            {% endif %}
+
+            {% if alert.type == 'ACCOMPLISH_CONFIRMATION' %}
+                <div class="alert alert-info" role="alert">
+                    {{ 'alerts.accomplish_confirmation.message'|trans }}
+                </div>
+            {% endif %}
+
+        {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+

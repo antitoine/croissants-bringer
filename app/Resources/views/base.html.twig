@@ -30,6 +30,7 @@
     <body>
         {% embed 'header.html.twig' %}{% endembed %}
         <div class="container">
+            {% embed 'alerts.html.twig' %}{% endembed %}
             {% block content %}{% endblock %}
         </div>
         {% embed 'footer.html.twig' %}{% endembed %}
