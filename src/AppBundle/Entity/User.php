@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Enum\ParticipationStatusEnum;
+use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -30,7 +32,7 @@ class User extends BaseUser
     protected $username;
 
     /**
-     * @var array
+     * @var ArrayCollection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Participation", mappedBy="user")
      */
@@ -57,7 +59,7 @@ class User extends BaseUser
     }
 
     /**
-     * @return array
+     * @return ArrayCollection
      */
     public function getParticipationList()
     {
@@ -65,7 +67,7 @@ class User extends BaseUser
     }
 
     /**
-     * @param array $participationList
+     * @param array|ArrayCollection $participationList
      */
     protected function setParticipationList($participationList)
     {
@@ -114,5 +116,18 @@ class User extends BaseUser
     public function setParticipant($participant)
     {
         $this->participant = $participant;
+    }
+
+    /**
+     * @return array
+     */
+    public function getParticipationDoneList()
+    {
+        if ($this->participationList === null || count($this->participationList) <= 0) {
+            return [];
+        }
+        return array_filter($this->participationList->toArray(), function (Participation $participation) {
+            return $participation->getStatus() === ParticipationStatusEnum::STATUS_DONE;
+        });
     }
 }
