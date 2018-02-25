@@ -6,7 +6,6 @@ use AppBundle\Entity\Participation;
 use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class PagesController
@@ -91,12 +90,14 @@ class PagesController extends Controller
         if ($lastParticipation->NeedAccomplishConfirmation()) {
             $alertList[] = [
                 'type' => 'ACCOMPLISH_CONFIRMATION',
+                'participation' => $lastParticipation,
             ];
         }
 
         if ($lastParticipation->NeedApprovalFromParticipant() && $lastParticipation->getUser()->getId() === $user->getId()) {
             $alertList[] = [
                 'type' => 'PARTICIPANT_APPROVAL',
+                'participation' => $lastParticipation,
             ];
         }
 

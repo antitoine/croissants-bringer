@@ -9,12 +9,18 @@
             {% if alert.type == 'PARTICIPANT_APPROVAL' %}
                 <div class="alert alert-warning" role="alert">
                     {{ 'alerts.participant_approval.message'|trans }}
+                    <a href="{{ path('participation_accept', {'id': alert.participation.id}) }}" class="alert-link" title="{{ 'alerts.participant_approval.accept_title'|trans }}">{{ 'alerts.participant_approval.accept'|trans }}</a>
+                    |
+                    <a href="{{ path('participation_refuse', {'id': alert.participation.id}) }}" class="alert-link" title="{{ 'alerts.participant_approval.refuse_title'|trans }}">{{ 'alerts.participant_approval.refuse'|trans }}</a>
                 </div>
             {% endif %}
 
             {% if alert.type == 'ACCOMPLISH_CONFIRMATION' %}
                 <div class="alert alert-info" role="alert">
-                    {{ 'alerts.accomplish_confirmation.message'|trans }}
+                    {{ 'alerts.accomplish_confirmation.message'|trans({'%user%': alert.participation.user.username}) }}
+                    <a href="{{ path('participation_accomplish', {'id': alert.participation.id}) }}" class="alert-link" title="{{ 'alerts.accomplish_confirmation.accomplish_title'|trans }}">{{ 'alerts.accomplish_confirmation.accomplish'|trans }}</a>
+                    |
+                    <a href="{{ path('participation_fail', {'id': alert.participation.id}) }}" class="alert-link" title="{{ 'alerts.accomplish_confirmation.fail_title'|trans }}">{{ 'alerts.accomplish_confirmation.fail'|trans }}</a>
                 </div>
             {% endif %}
 

@@ -3,11 +3,13 @@
 {% trans_default_domain 'croissants' %}
 
 {% block content %}
-    <div class="well well-lg">
-        <h1>{{ 'home.head.title'|trans }}</h1>
-        <p class="lead">{{ 'home.head.text'|trans }}</p>
-        <p><a class="btn btn-lg btn-success" href="{{ path('fos_user_registration_register') }}" role="button">{{ 'home.head.register'|trans }}</a></p>
-    </div>
+    {% if not is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="well well-lg">
+            <h1>{{ 'home.head.title'|trans }}</h1>
+            <p class="lead">{{ 'home.head.text'|trans }}</p>
+            <p><a class="btn btn-lg btn-success" href="{{ path('fos_user_registration_register') }}" role="button">{{ 'home.head.register'|trans }}</a></p>
+        </div>
+    {% endif %}
 
     <div class="row marketing">
         <div class="col-lg-6">

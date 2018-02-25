@@ -3,10 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Participation;
+use AppBundle\Entity\User;
+use AppBundle\Enum\ParticipationStatusEnum;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class ParticipationController
@@ -28,6 +30,22 @@ class ParticipationController extends Controller
     }
 
     /**
+     * @param Participation $participation
+     *
+     * @throws AccessDeniedException if not the participant of the participation
+     */
+    protected function checkIsParticipant(Participation $participation)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($participation->getUser()->getId() !== $user->getId()) {
+            throw $this->createAccessDeniedException('Your are not the participant of this participation, you can\'t accept or refuse it.');
+        }
+    }
+
+    /**
      * @Route("/accept", name="participation_accept")
      *
      * @param Participation $participation
@@ -35,7 +53,14 @@ class ParticipationController extends Controller
      */
     public function acceptParticipationPageAction(Participation $participation)
     {
-        return $this->render('page/home.html.twig');
+        $this->checkIsParticipant($participation);
+
+        $participation->setStatus(ParticipationStatusEnum::STATUS_PENDING);
+        $this->getDoctrine()->getManager()->flush();
+
+        // TODO send notification to confirm ?
+
+        return $this->redirectToRoute('history');
     }
 
     /**
@@ -46,7 +71,11 @@ class ParticipationController extends Controller
      */
     public function refuseParticipationPageAction(Participation $participation)
     {
-        return $this->render('page/home.html.twig');
+        $this->checkIsParticipant($participation);
+
+        // TODO
+
+        return $this->redirectToRoute('history');
     }
 
     /**
@@ -57,7 +86,12 @@ class ParticipationController extends Controller
      */
     public function accomplishParticipationPageAction(Participation $participation)
     {
-        return $this->render('page/home.html.twig');
+        $participation->setStatus(ParticipationStatusEnum::STATUS_DONE);
+        $this->getDoctrine()->getRepository('AppBundle:User')->incrementUsersPosition();
+        $participation->getUser()->setPosition(0);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('history');
     }
 
     /**
@@ -68,6 +102,9 @@ class ParticipationController extends Controller
      */
     public function failParticipationPageAction(Participation $participation)
     {
-        return $this->render('page/home.html.twig');
+        $participation->setStatus(ParticipationStatusEnum::STATUS_FAILED);
+        $this->getDoctrine()->getManager()->flush();
+
+        return $this->redirectToRoute('history');
     }
 }

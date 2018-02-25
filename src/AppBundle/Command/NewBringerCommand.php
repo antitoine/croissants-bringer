@@ -59,8 +59,6 @@ class NewBringerCommand extends ContainerAwareCommand
 
         if (!is_null($lastParticipation)) {
 
-            // If wa have the confirmation that the mission is done and we are not a friday day
-            // a new croissant bringer need to be chosen for the new week
             if ($lastParticipation->NeedNewParticipation()) {
 
                 /** @var Participation $newParticipation */
@@ -73,20 +71,10 @@ class NewBringerCommand extends ContainerAwareCommand
                     $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
                 }
 
-            // If we haven't confirmation that the mission is done and the mission date is passed, ask for confirmation
             } else if ($lastParticipation->NeedAccomplishConfirmation()) {
 
                 $this->sendRequestToGetConfirmation();
 
-                // This code allow to switch the participant from pending to done and increment users positions.
-                // This can't be done in the command line, but when a user confirm that the mission is done.
-                //
-                //$lastParticipation->setStatus(ParticipationStatusEnum::STATUS_DONE);
-                //$this->userRepository->incrementUsersPosition();
-                //$lastParticipation->getUser()->setPosition(0);
-                //$this->entityManager->flush();
-
-            // If we are still waiting participation response
             } else if ($lastParticipation->NeedApprovalFromParticipant()) {
 
                 // Check if the user is still a participant

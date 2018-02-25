@@ -137,7 +137,7 @@ class Participation
      */
     public function NeedNewParticipation()
     {
-        return $this->getStatus() === ParticipationStatusEnum::STATUS_DONE && date('w') !== 5;
+        return ($this->getStatus() === ParticipationStatusEnum::STATUS_DONE && date('w') !== 5) || $this->getStatus() === ParticipationStatusEnum::STATUS_FAILED;
     }
 }
 

@@ -48,9 +48,11 @@ participants:
 history:
   table:
     description: |
-      Asking: waiting response from the bringer /
-      Pending: the bringer has confirmed that he will bring the croissants /
-      Done: previous bringers
+      The statuses:
+       - Asking: waiting response from the bringer
+       - Pending: the bringer has confirmed that he will bring the croissants
+       - Done: previous bringers that succed
+       - Failed: previous bringers that failed
     date: Date
     username: Username
     email: Email
@@ -67,3 +69,13 @@ profile:
 alerts:
   participant_approval:
     message: 'Can you bring the croissants this Friday? Please confirm as soon as possible!'
+    accept: "Yes"
+    accept_title: "Yes, I'll bring the croissants this Friday!"
+    refuse: "No"
+    refuse_title: "No, unfortunately I'm not here."
+  accomplish_confirmation:
+    message: 'Can you confirm that "%user%" brought the croissants last Friday?'
+    accomplish: "Yes"
+    accomplish_title: "Yes, he accomplished his mission successfully!"
+    fail: "No"
+    fail_title: "No, unfortunately he failed."
