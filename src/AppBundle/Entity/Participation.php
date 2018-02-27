@@ -45,6 +45,14 @@ class Participation
     protected $status;
 
     /**
+     * @var User
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\JoinColumn(name="confirmed_by_id", referencedColumnName="id")
+     */
+    protected $confirmedBy;
+
+    /**
      * Get id
      *
      * @return int
@@ -117,6 +125,22 @@ class Participation
     }
 
     /**
+     * @return User
+     */
+    public function getConfirmedBy()
+    {
+        return $this->confirmedBy;
+    }
+
+    /**
+     * @param User $confirmedBy
+     */
+    public function setConfirmedBy($confirmedBy)
+    {
+        $this->confirmedBy = $confirmedBy;
+    }
+
+    /**
      * @return bool true if the participation is in waiting status for approval from the participant
      */
     public function NeedApprovalFromParticipant()
@@ -137,7 +161,10 @@ class Participation
      */
     public function NeedNewParticipation()
     {
-        return ($this->getStatus() === ParticipationStatusEnum::STATUS_DONE && date('w') !== 5) || $this->getStatus() === ParticipationStatusEnum::STATUS_FAILED;
+        $status = $this->getStatus();
+        return ($status === ParticipationStatusEnum::STATUS_DONE && date('w') !== 5)
+            || $status === ParticipationStatusEnum::STATUS_FAILED
+            || $status === ParticipationStatusEnum::STATUS_REFUSED;
     }
 }
 

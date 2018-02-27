@@ -55,7 +55,7 @@ class PagesController extends Controller
     {
         $participationRepository = $this->get('doctrine')->getRepository('AppBundle:Participation');
 
-        $participationList = $participationRepository->findBy([], ['date' => 'DESC']);
+        $participationList = $participationRepository->findBy([], ['date' => 'DESC', 'id' => 'DESC']);
 
         return $this->render('page/history.html.twig', [
             'participationList' => $participationList,
@@ -88,7 +88,7 @@ class PagesController extends Controller
             return $alertList;
         }
 
-        if ($lastParticipation->NeedAccomplishConfirmation()) {
+        if ($lastParticipation->NeedAccomplishConfirmation() && $lastParticipation->getUser()->getId() !== $user->getId()) {
             $alertList[] = [
                 'type' => 'ACCOMPLISH_CONFIRMATION',
                 'participation' => $lastParticipation,

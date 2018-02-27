@@ -122,8 +122,12 @@ class NewBringerCommand extends ContainerAwareCommand
      */
     protected function makeNewParticipation()
     {
+        $date = self::getNextFriday();
+
+        $excludedUserIdList = $this->participationRepository->findExcludedUsers($date);
+
         /** @var User $user */
-        $user = $this->userRepository->findCroissantsBringer();
+        $user = $this->userRepository->findCroissantsBringer($excludedUserIdList);
 
         if (is_null($user)) {
             return null;
@@ -131,7 +135,7 @@ class NewBringerCommand extends ContainerAwareCommand
 
         $newParticipation = new Participation();
         $newParticipation->setStatus(ParticipationStatusEnum::STATUS_ASKING);
-        $newParticipation->setDate(self::getNextFriday());
+        $newParticipation->setDate($date);
         $newParticipation->setUser($user);
 
         $this->entityManager->persist($newParticipation);

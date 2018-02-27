@@ -32,10 +32,14 @@ class ParticipationController extends Controller
     /**
      * @param Participation $participation
      *
-     * @throws AccessDeniedException if not the participant of the participation
+     * @throws AccessDeniedException
      */
-    protected function checkIsParticipant(Participation $participation)
+    protected function checkApproval(Participation $participation)
     {
+        if (!$participation->NeedApprovalFromParticipant()) {
+            throw $this->createAccessDeniedException('The participation doesn\'t require an approval.');
+        }
+
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         /** @var User $user */
         $user = $this->getUser();
@@ -53,7 +57,7 @@ class ParticipationController extends Controller
      */
     public function acceptParticipationPageAction(Participation $participation)
     {
-        $this->checkIsParticipant($participation);
+        $this->checkApproval($participation);
 
         $participation->setStatus(ParticipationStatusEnum::STATUS_PENDING);
         $this->getDoctrine()->getManager()->flush();
@@ -71,11 +75,34 @@ class ParticipationController extends Controller
      */
     public function refuseParticipationPageAction(Participation $participation)
     {
-        $this->checkIsParticipant($participation);
+        $this->checkApproval($participation);
+
+        $participation->setStatus(ParticipationStatusEnum::STATUS_REFUSED);
+        $this->getDoctrine()->getManager()->flush();
 
         // TODO
 
         return $this->redirectToRoute('history');
+    }
+
+    /**
+     * @param Participation $participation
+     *
+     * @throws AccessDeniedException
+     */
+    protected function checkAccomplish(Participation $participation)
+    {
+        if (!$participation->NeedAccomplishConfirmation()) {
+            throw $this->createAccessDeniedException('The participation doesn\'t require a confirmation.');
+        }
+
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($participation->getUser()->getId() === $user->getId()) {
+            throw $this->createAccessDeniedException('Your are the participant of this participation, you can\'t confirm the accomplishment.');
+        }
     }
 
     /**
@@ -86,7 +113,10 @@ class ParticipationController extends Controller
      */
     public function accomplishParticipationPageAction(Participation $participation)
     {
+        $this->checkAccomplish($participation);
+
         $participation->setStatus(ParticipationStatusEnum::STATUS_DONE);
+        $participation->setConfirmedBy($this->getUser());
         $this->getDoctrine()->getRepository('AppBundle:User')->incrementUsersPosition();
         $participation->getUser()->setPosition(0);
         $this->getDoctrine()->getManager()->flush();
@@ -102,7 +132,10 @@ class ParticipationController extends Controller
      */
     public function failParticipationPageAction(Participation $participation)
     {
+        $this->checkAccomplish($participation);
+
         $participation->setStatus(ParticipationStatusEnum::STATUS_FAILED);
+        $participation->setConfirmedBy($this->getUser());
         $this->getDoctrine()->getManager()->flush();
 
         return $this->redirectToRoute('history');

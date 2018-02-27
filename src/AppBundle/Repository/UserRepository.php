@@ -12,17 +12,24 @@ use Doctrine\ORM\NonUniqueResultException;
 class UserRepository extends EntityRepository
 {
     /**
+     * @param $excludedUserIdList array of user id
      * @return User|null
      */
-    public function findCroissantsBringer()
+    public function findCroissantsBringer($excludedUserIdList = [])
     {
         try {
-            return $this
-                ->createQueryBuilder('u')
+            $qb = $this->createQueryBuilder('u')
                 ->orderBy('u.position', 'DESC')
-                ->setMaxResults(1)
-                ->getQuery()
-                ->getOneOrNullResult();
+                ->where('u.participant = :participant')
+                ->setParameter('participant', true)
+                ->setMaxResults(1);
+
+            if (count($excludedUserIdList) > 0) {
+                $qb->andWhere($qb->expr()->notIn('u.id', ':users'))
+                    ->setParameter('users', $excludedUserIdList);
+            }
+
+            return $qb->getQuery()->getOneOrNullResult();
         } catch (NonUniqueResultException $e) {
             return null;
         }
