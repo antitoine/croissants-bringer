@@ -88,3 +88,11 @@ doctrine_migrations:
     table_name: migration_versions
     name: Application Migrations
     organize_migrations: false
+
+monolog:
+    handlers:
+        bringer:
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/bringer.log'
+            channels: [bringer]

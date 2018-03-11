@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Command;
+namespace AppBundle\Service;
 
 use AppBundle\Entity\Participation;
 use AppBundle\Entity\User;
@@ -9,33 +9,35 @@ use AppBundle\Repository\ParticipationRepository;
 use AppBundle\Repository\UserRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\OptimisticLockException;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
+use Psr\Log\LoggerInterface;
 
-class NewBringerCommand extends ContainerAwareCommand
+/**
+ * Class BringerManagerService
+ * @package AppBundle\Service
+ */
+class BringerManagerService
 {
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-
+    /** @var  EntityManager */
+    protected $em;
     /**
      * @var UserRepository $userRepository
      */
     protected $userRepository;
-
     /**
      * @var ParticipationRepository $participationRepository
      */
     protected $participationRepository;
+    /**
+     * @var LoggerInterface $logger
+     */
+    protected $logger;
 
-    protected function configure()
+    public function __construct(EntityManager $em, LoggerInterface $logger)
     {
-        $this
-            ->setName('app:new-bringer')
-            ->setDescription('Select a new croissants bringer.')
-            ->setHelp('This command allows you to select a new croissants bringer and update the participation history.');
+        $this->em = $em;
+        $this->userRepository = $this->em->getRepository('AppBundle:User');
+        $this->participationRepository = $this->em->getRepository('AppBundle:Participation');
+        $this->logger = $logger;
     }
 
     /**
@@ -43,17 +45,10 @@ class NewBringerCommand extends ContainerAwareCommand
      * or send a notification to confirm if the mission is done,
      * or send a notification to get the approval of the participant if no given yet
      *
-     * @param InputInterface $input
-     * @param OutputInterface $output
-     * @return int|null|void
      * @throws OptimisticLockException
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    public function checkAndManage()
     {
-        $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
-        $this->userRepository = $this->entityManager->getRepository('AppBundle:User');
-        $this->participationRepository = $this->entityManager->getRepository('AppBundle:Participation');
-
         /** @var Participation $lastParticipation */
         $lastParticipation = $this->participationRepository->findLastParticipation();
 
@@ -62,13 +57,13 @@ class NewBringerCommand extends ContainerAwareCommand
             if ($lastParticipation->NeedNewParticipation()) {
 
                 /** @var Participation $newParticipation */
-                $newParticipation = $this->makeNewParticipation();
+                $newParticipation = $this->getNewParticipation();
 
                 if (!is_null($newParticipation)) {
                     $this->sendRequestToBringer($newParticipation->getUser());
-                    $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
+                    $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
                 } else {
-                    $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
+                    $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
                 }
 
             } else if ($lastParticipation->NeedAccomplishConfirmation()) {
@@ -80,10 +75,10 @@ class NewBringerCommand extends ContainerAwareCommand
                 // Check if the user is still a participant
                 if ($lastParticipation->getUser()->isParticipant()) {
                     $this->sendRequestToBringer($lastParticipation->getUser());
-                    $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request again to bringer to get his approval: ' . $lastParticipation->getUser()->getUsername());
+                    $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request again to bringer to get his approval: ' . $lastParticipation->getUser()->getUsername());
                 } else {
 
-                    $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Previous bringer ("' . $lastParticipation->getUser()->getUsername() . '") is not a participant any more, will find a new one');
+                    $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Previous bringer ("' . $lastParticipation->getUser()->getUsername() . '") is not a participant any more, will find a new one');
 
                     /** @var User $user */
                     $user = $this->userRepository->findCroissantsBringer();
@@ -91,27 +86,27 @@ class NewBringerCommand extends ContainerAwareCommand
                     if (!is_null($user)) {
                         $lastParticipation->setUser($user);
 
-                        $this->entityManager->flush();
+                        $this->em->flush();
 
                         $this->sendRequestToBringer($lastParticipation->getUser());
 
-                        $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer: ' . $lastParticipation->getUser()->getUsername());
+                        $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer: ' . $lastParticipation->getUser()->getUsername());
                     } else {
-                        $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
+                        $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
                     }
                 }
             } else {
-                $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Nothing to do for now');
+                $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Nothing to do for now');
             }
 
         } else {
-            $newParticipation = $this->makeNewParticipation();
+            $newParticipation = $this->getNewParticipation();
 
             if (!is_null($newParticipation)) {
                 $this->sendRequestToBringer($newParticipation->getUser());
-                $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
+                $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
             } else {
-                $output->writeln('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
+                $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
             }
         }
     }
@@ -120,9 +115,9 @@ class NewBringerCommand extends ContainerAwareCommand
      * @return Participation|null
      * @throws OptimisticLockException
      */
-    protected function makeNewParticipation()
+    public function getNewParticipation()
     {
-        $date = self::getNextFriday();
+        $date = static::getNextFriday();
 
         $excludedUserIdList = $this->participationRepository->findExcludedUsers($date);
 
@@ -138,8 +133,8 @@ class NewBringerCommand extends ContainerAwareCommand
         $newParticipation->setDate($date);
         $newParticipation->setUser($user);
 
-        $this->entityManager->persist($newParticipation);
-        $this->entityManager->flush();
+        $this->em->persist($newParticipation);
+        $this->em->flush();
 
         return $newParticipation;
     }
@@ -147,7 +142,7 @@ class NewBringerCommand extends ContainerAwareCommand
     /**
      * @return \DateTime
      */
-    static protected function getNextFriday()
+    static public function getNextFriday()
     {
         $date = new \DateTime();
         $date->modify('next friday');
