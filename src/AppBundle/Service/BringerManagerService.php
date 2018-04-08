@@ -54,7 +54,7 @@ class BringerManagerService
 
         if (!is_null($lastParticipation)) {
 
-            if ($lastParticipation->NeedNewParticipation()) {
+            if ($lastParticipation->needNewParticipation()) {
 
                 /** @var Participation $newParticipation */
                 $newParticipation = $this->getNewParticipation();
@@ -66,11 +66,11 @@ class BringerManagerService
                     $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
                 }
 
-            } else if ($lastParticipation->NeedAccomplishConfirmation()) {
+            } else if ($lastParticipation->needAccomplishConfirmation()) {
 
                 $this->sendRequestToGetConfirmation();
 
-            } else if ($lastParticipation->NeedApprovalFromParticipant()) {
+            } else if ($lastParticipation->needApprovalFromParticipant()) {
 
                 // Check if the user is still a participant
                 if ($lastParticipation->getUser()->isParticipant()) {

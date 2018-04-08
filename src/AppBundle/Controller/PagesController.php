@@ -88,14 +88,14 @@ class PagesController extends Controller
             return $alertList;
         }
 
-        if ($lastParticipation->NeedAccomplishConfirmation() && $lastParticipation->getUser()->getId() !== $user->getId()) {
+        if ($lastParticipation->needAccomplishConfirmation() && $lastParticipation->getUser()->getId() !== $user->getId()) {
             $alertList[] = [
                 'type' => 'ACCOMPLISH_CONFIRMATION',
                 'participation' => $lastParticipation,
             ];
         }
 
-        if ($lastParticipation->NeedApprovalFromParticipant() && $lastParticipation->getUser()->getId() === $user->getId()) {
+        if ($lastParticipation->needApprovalFromParticipant() && $lastParticipation->getUser()->getId() === $user->getId()) {
             $alertList[] = [
                 'type' => 'PARTICIPANT_APPROVAL',
                 'participation' => $lastParticipation,

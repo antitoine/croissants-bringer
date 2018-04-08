@@ -36,7 +36,7 @@ class ParticipationController extends Controller
      */
     protected function checkApproval(Participation $participation)
     {
-        if (!$participation->NeedApprovalFromParticipant()) {
+        if (!$participation->needApprovalFromParticipant()) {
             throw $this->createAccessDeniedException('The participation doesn\'t require an approval.');
         }
 
@@ -92,7 +92,7 @@ class ParticipationController extends Controller
      */
     protected function checkAccomplish(Participation $participation)
     {
-        if (!$participation->NeedAccomplishConfirmation()) {
+        if (!$participation->needAccomplishConfirmation()) {
             throw $this->createAccessDeniedException('The participation doesn\'t require a confirmation.');
         }
 
