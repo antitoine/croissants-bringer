@@ -81,6 +81,8 @@ fos_user:
     profile:
         form:
             type: AppBundle\Form\ProfileType
+    service:
+        mailer: AppBundle\Service\MailerService
 
 doctrine_migrations:
     dir_name: "%kernel.root_dir%/DoctrineMigrations"

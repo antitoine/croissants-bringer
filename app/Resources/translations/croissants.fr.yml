@@ -79,3 +79,23 @@ alerts:
     accomplish_title: "Oui, il a rempli sa mission avec succès !"
     fail: "Non"
     fail_title: "Non, malheureusement il a échoué."
+
+email:
+  subject:
+    reset_password: '[Croissants Bringer] - Demande de changement de mot de passe'
+    account_confirmation: "[Croissants Bringer] - Confirmation de l'adresse mail"
+  content:
+    reset_password:
+      greeting: "Salut toi, l'apporteur de croissant toHero,"
+      explanation: |
+        Vous avez demandé la modification de votre mot de passe pour la plate-forme de sélection hebdomadaire "Croissant Bringer".
+        Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer ce mail.
+        Sinon, cliquez sur le bouton ci-dessous :
+      button: 'Changer le mot de passe'
+      link: 'Ou vous pouvez copier et coller le lien suivant dans votre navigateur:'
+    account_confirmation:
+      greeting: "Salut toi, l'apporteur de croissant toHero,"
+      explanation: |
+        Afin de valider votre compte et faire partie des "Croissant Bringer", cliquez sur le bouton ci-dessous:
+      button: 'Confirmer mon compte'
+      link: 'Ou vous pouvez copier et coller le lien suivant dans votre navigateur:'

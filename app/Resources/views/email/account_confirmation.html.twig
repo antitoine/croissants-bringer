@@ -1,0 +1,30 @@
+{% extends 'email/base.html.twig' %}
+
+{% trans_default_domain 'croissants' %}
+
+{%- block title -%}
+    {{ 'email.subject.account_confirmation'|trans }}
+{%- endblock -%}
+
+{%- block content -%}
+    <p>{{ 'email.content.account_confirmation.greeting'|trans }}</p>
+    <p>{{ 'email.content.account_confirmation.explanation'|trans }}</p>
+    <table border="0" cellpadding="0" cellspacing="0" class="btn btn-primary">
+        <tbody>
+        <tr>
+            <td align="left">
+                <table border="0" cellpadding="0" cellspacing="0">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <a href="{{ confirmationUrl }}" target="_blank">{{ 'email.content.account_confirmation.button'|trans }}</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>{{ 'email.content.account_confirmation.link'|trans }}: {{ confirmationUrl }}</p>
+{%- endblock -%}

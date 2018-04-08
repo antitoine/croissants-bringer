@@ -38,3 +38,12 @@ services:
         arguments: ['@doctrine.orm.entity_manager', '@logger']
         tags:
             - { name: monolog.logger, channel: bringer }
+
+    AppBundle\Service\MailerService:
+        arguments:
+            - "@mailer"
+            - "@doctrine.orm.entity_manager"
+            - "@twig"
+            - "@router"
+            - "@translator"
+            - { from: "%mailer_from%" }

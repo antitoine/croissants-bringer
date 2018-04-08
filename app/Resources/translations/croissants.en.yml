@@ -79,3 +79,23 @@ alerts:
     accomplish_title: "Yes, he accomplished his mission successfully!"
     fail: "No"
     fail_title: "No, unfortunately he failed."
+
+email:
+  subject:
+    reset_password: '[Croissants Bringer] - Request to change password'
+    account_confirmation: '[Croissants Bringer] - Confirmation of your email'
+  content:
+    reset_password:
+      greeting: 'Hi toHero Bringer,'
+      explanation: |
+        You have requested the change of your password for the weekly "Croissant Bringer" selection platform.
+        If you are not at the origin of this request, you can ignore this mail.
+        Otherwise, click on the button below:
+      button: 'Change password'
+      link: 'Or you can copy and paste the following link into your browser:'
+    account_confirmation:
+      greeting: 'Hi toHero Bringer,'
+      explanation: |
+        To validate your account and be part of the "Croissant Bringer" community, click on the button below:
+      button: 'Confirm my account'
+      link: 'Or you can copy and paste the following link into your browser:'

@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Translation\Translator;
 
 /**
  * Class MailerService
@@ -24,22 +25,26 @@ class MailerService implements MailerInterface
     protected $parameters;
     /** @var UrlGeneratorInterface */
     protected $router;
+    /** @var Translator */
+    protected $translator;
 
     /**
      * MailerService constructor.
      *
-     * @param \Swift_Mailer         $mailer
-     * @param EntityManager         $em
-     * @param \Twig_Environment     $template
+     * @param \Swift_Mailer $mailer
+     * @param EntityManager $em
+     * @param \Twig_Environment $template
      * @param UrlGeneratorInterface $router
-     * @param array                 $parameters
+     * @param $translator
+     * @param array $parameters
      */
-    public function __construct(\Swift_Mailer $mailer, EntityManager $em, \Twig_Environment $template, UrlGeneratorInterface $router, $parameters)
+    public function __construct(\Swift_Mailer $mailer, EntityManager $em, \Twig_Environment $template, UrlGeneratorInterface $router, Translator $translator, $parameters)
     {
         $this->mailer = $mailer;
         $this->em = $em;
         $this->template = $template;
         $this->router = $router;
+        $this->translator = $translator;
         $this->parameters = $parameters;
     }
 
@@ -61,7 +66,7 @@ class MailerService implements MailerInterface
         return $this->sendMessage(
             $template,
             '[Croissants Bringer] - Demande de participation pour le ' . $participation->getDate()->format('d-m-Y'),
-            $this->parameters['email']['noreply'], // TODO put the parameter
+            $this->parameters['from'],
             $participation->getUser()->getEmail()
         );
     }
@@ -76,16 +81,17 @@ class MailerService implements MailerInterface
      */
     public function sendConfirmationEmailMessage(UserInterface $user)
     {
-        $url = $this->router->generate('fos_user_registration_confirm', ['token' => $user->getConfirmationToken()], UrlGeneratorInterface::ABSOLUTE_URL);
-        $template = $this->template->render('email/reset_password.html.twig', // TODO create the template
+        $url = $this->router->generate('fos_user_registration_confirm', ['token' => $user->getConfirmationToken()],
+            UrlGeneratorInterface::ABSOLUTE_URL);
+        $template = $this->template->render('email/account_confirmation.html.twig',
             [
                 'confirmationUrl' => $url,
                 'user' => $user,
             ]);
         $this->sendMessage(
             $template,
-            '[Croissants Bringer] - Confirmation', // TODO translate
-            $this->parameters['email']['noreply'],
+            $this->translator->trans('email.subject.account_confirmation', null, 'croissants'),
+            $this->parameters['from'],
             $user->getEmail()
         );
     }
@@ -101,15 +107,15 @@ class MailerService implements MailerInterface
     {
         $url = $this->router->generate('fos_user_resetting_reset', ['token' => $user->getConfirmationToken()],
             UrlGeneratorInterface::ABSOLUTE_URL);
-        $template = $this->template->render('email/reset_password.html.twig', // TODO create the template
+        $template = $this->template->render('email/reset_password.html.twig',
             [
                 'confirmationUrl' => $url,
                 'user' => $user,
             ]);
         $this->sendMessage(
             $template,
-            '[Croissants Bringer] - Demande de changement de mot de passe', // TODO translate
-            $this->parameters['email']['noreply'],
+            $this->translator->trans('email.subject.reset_password', null, 'croissants'),
+            $this->parameters['from'],
             $user->getEmail()
         );
     }
