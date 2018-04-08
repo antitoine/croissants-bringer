@@ -17,7 +17,7 @@
                     <tbody>
                     <tr>
                         <td>
-                            <a href="{{ path('participation_accept', {'id': participation.id}) }}" target="_blank" title="{{ 'email.content.participant_approval.button_accept_title'|trans }}">{{ 'email.content.participant_approval.button_accept'|trans }}</a>
+                            <a href="{{ path('participation_accept', {'id': participation.id, '_locale': 'fr'}) }}" target="_blank" title="{{ 'email.content.participant_approval.button_accept_title'|trans }}">{{ 'email.content.participant_approval.button_accept'|trans }}</a>
                         </td>
                     </tr>
                     </tbody>
@@ -28,7 +28,7 @@
                     <tbody>
                     <tr>
                         <td>
-                            <a href="{{ path('participation_refuse', {'id': participation.id}) }}" target="_blank" title="{{ 'email.content.participant_approval.button_refuse_title'|trans }}">{{ 'email.content.participant_approval.button_refuse'|trans }}</a>
+                            <a href="{{ path('participation_refuse', {'id': participation.id, '_locale': 'fr'}) }}" target="_blank" title="{{ 'email.content.participant_approval.button_refuse_title'|trans }}">{{ 'email.content.participant_approval.button_refuse'|trans }}</a>
                         </td>
                     </tr>
                     </tbody>
@@ -37,6 +37,6 @@
         </tr>
         </tbody>
     </table>
-    <p>{{ 'email.content.participant_approval.link_accept'|trans({'%link%': path('participation_accept', {'id': participation.id})}) }}</p>
-    <p>{{ 'email.content.participant_approval.link_refuse'|trans({'%link%': path('participation_refuse', {'id': participation.id})}) }}</p>
+    <p>{{ 'email.content.participant_approval.link_accept'|trans({'%link%': path('participation_accept', {'id': participation.id, '_locale': 'fr'})}) }}</p>
+    <p>{{ 'email.content.participant_approval.link_refuse'|trans({'%link%': path('participation_refuse', {'id': participation.id, '_locale': 'fr'})}) }}</p>
 {%- endblock -%}
