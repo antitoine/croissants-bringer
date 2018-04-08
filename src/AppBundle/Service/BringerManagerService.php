@@ -31,13 +31,18 @@ class BringerManagerService
      * @var LoggerInterface $logger
      */
     protected $logger;
+    /**
+     * @var MailerService
+     */
+    protected $mailer;
 
-    public function __construct(EntityManager $em, LoggerInterface $logger)
+    public function __construct(EntityManager $em, LoggerInterface $logger, MailerService $mailer)
     {
         $this->em = $em;
         $this->userRepository = $this->em->getRepository('AppBundle:User');
         $this->participationRepository = $this->em->getRepository('AppBundle:Participation');
         $this->logger = $logger;
+        $this->mailer = $mailer;
     }
 
     /**
@@ -60,10 +65,10 @@ class BringerManagerService
                 $newParticipation = $this->getNewParticipation();
 
                 if (!is_null($newParticipation)) {
-                    $this->sendRequestToBringer($newParticipation->getUser());
-                    $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
+                    $this->sendRequestToBringer($newParticipation);
+                    $this->logger->info('Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
                 } else {
-                    $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
+                    $this->logger->info('No Bringer available for now');
                 }
 
             } else if ($lastParticipation->needAccomplishConfirmation()) {
@@ -74,11 +79,11 @@ class BringerManagerService
 
                 // Check if the user is still a participant
                 if ($lastParticipation->getUser()->isParticipant()) {
-                    $this->sendRequestToBringer($lastParticipation->getUser());
-                    $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request again to bringer to get his approval: ' . $lastParticipation->getUser()->getUsername());
+                    $this->sendRequestToBringer($lastParticipation);
+                    $this->logger->info('Send request again to bringer to get his approval: ' . $lastParticipation->getUser()->getUsername());
                 } else {
 
-                    $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Previous bringer ("' . $lastParticipation->getUser()->getUsername() . '") is not a participant any more, will find a new one');
+                    $this->logger->info('Previous bringer ("' . $lastParticipation->getUser()->getUsername() . '") is not a participant any more, will find a new one');
 
                     /** @var User $user */
                     $user = $this->userRepository->findCroissantsBringer();
@@ -90,23 +95,23 @@ class BringerManagerService
 
                         $this->sendRequestToBringer($lastParticipation->getUser());
 
-                        $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer: ' . $lastParticipation->getUser()->getUsername());
+                        $this->logger->info('Send request to new bringer: ' . $lastParticipation->getUser()->getUsername());
                     } else {
-                        $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
+                        $this->logger->info('No Bringer available for now');
                     }
                 }
             } else {
-                $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Nothing to do for now');
+                $this->logger->info('Nothing to do for now');
             }
 
         } else {
             $newParticipation = $this->getNewParticipation();
 
             if (!is_null($newParticipation)) {
-                $this->sendRequestToBringer($newParticipation->getUser());
-                $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
+                $this->sendRequestToBringer($newParticipation);
+                $this->logger->info('Send request to new bringer to get his approval: ' . $newParticipation->getUser()->getUsername());
             } else {
-                $this->logger->info('[' . date('Y-m-d H:i:s') . '] Croissants Party - No Bringer available for now');
+                $this->logger->info('No Bringer available for now');
             }
         }
     }
@@ -149,9 +154,17 @@ class BringerManagerService
         return $date;
     }
 
-    protected function sendRequestToBringer(User $user)
+    protected function sendRequestToBringer(Participation $participation)
     {
-        // TODO
+        try {
+            $this->mailer->sendParticipantApproval($participation);
+        } catch (\Twig_Error_Loader $e) {
+            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage() . ' / Trace: ' . $e->getTraceAsString());
+        } catch (\Twig_Error_Runtime $e) {
+            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage() . ' / Trace: ' . $e->getTraceAsString());
+        } catch (\Twig_Error_Syntax $e) {
+            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage() . ' / Trace: ' . $e->getTraceAsString());
+        }
     }
 
     protected function sendRequestToGetConfirmation()

@@ -35,7 +35,10 @@ services:
     #         $someArgument: 'some_value'
 
     AppBundle\Service\BringerManagerService:
-        arguments: ['@doctrine.orm.entity_manager', '@logger']
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@logger'
+            - '@AppBundle\Service\MailerService'
         tags:
             - { name: monolog.logger, channel: bringer }
 

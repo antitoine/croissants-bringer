@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityManager;
 use FOS\UserBundle\Mailer\MailerInterface;
 use FOS\UserBundle\Model\UserInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class MailerService
@@ -25,7 +25,7 @@ class MailerService implements MailerInterface
     protected $parameters;
     /** @var UrlGeneratorInterface */
     protected $router;
-    /** @var Translator */
+    /** @var TranslatorInterface */
     protected $translator;
 
     /**
@@ -35,10 +35,10 @@ class MailerService implements MailerInterface
      * @param EntityManager $em
      * @param \Twig_Environment $template
      * @param UrlGeneratorInterface $router
-     * @param $translator
+     * @param TranslatorInterface $translator
      * @param array $parameters
      */
-    public function __construct(\Swift_Mailer $mailer, EntityManager $em, \Twig_Environment $template, UrlGeneratorInterface $router, Translator $translator, $parameters)
+    public function __construct(\Swift_Mailer $mailer, EntityManager $em, \Twig_Environment $template, UrlGeneratorInterface $router, TranslatorInterface $translator, $parameters)
     {
         $this->mailer = $mailer;
         $this->em = $em;
@@ -52,7 +52,6 @@ class MailerService implements MailerInterface
      * Send an email to the participant to get his approval
      *
      * @param Participation $participation
-     * @return bool true if succeed
      * @throws \Twig_Error_Loader
      * @throws \Twig_Error_Runtime
      * @throws \Twig_Error_Syntax
@@ -63,7 +62,7 @@ class MailerService implements MailerInterface
             'participation' => $participation,
         ]);
 
-        return $this->sendMessage(
+        $this->sendMessage(
             $template,
             '[Croissants Bringer] - Demande de participation pour le ' . $participation->getDate()->format('d-m-Y'),
             $this->parameters['from'],
