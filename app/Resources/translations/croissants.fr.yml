@@ -86,16 +86,25 @@ email:
     account_confirmation: "[Croissants Bringer] - Confirmation de l'adresse mail"
   content:
     reset_password:
-      greeting: "Salut toi, l'apporteur de croissant toHero,"
+      greeting: "Salut %user%,"
       explanation: |
         Vous avez demandé la modification de votre mot de passe pour la plate-forme de sélection hebdomadaire "Croissant Bringer".
         Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer ce mail.
         Sinon, cliquez sur le bouton ci-dessous :
       button: 'Changer le mot de passe'
-      link: 'Ou vous pouvez copier et coller le lien suivant dans votre navigateur:'
+      link: 'Ou vous pouvez copier et coller le lien suivant dans votre navigateur: %link%'
     account_confirmation:
-      greeting: "Salut toi, l'apporteur de croissant toHero,"
+      greeting: "Salut %user%,"
       explanation: |
         Afin de valider votre compte et faire partie des "Croissant Bringer", cliquez sur le bouton ci-dessous:
       button: 'Confirmer mon compte'
-      link: 'Ou vous pouvez copier et coller le lien suivant dans votre navigateur:'
+      link: 'Ou vous pouvez copier et coller le lien suivant dans votre navigateur: %link%'
+    participant_approval:
+      greeting: 'Salut %user%,'
+      explanation: 'Pouvez-vous amener les croissants ce vendredi ? Merci de confirmer au plus vite !'
+      button_accept: 'Oui'
+      button_accept_title: "Oui, j'amène les croissants ce vendredi !"
+      button_refuse: 'Non'
+      button_refuse_title: "Non, malheureusement je ne suis pas présent."
+      link_accept: 'Ou vous pouvez copier et coller le lien suivant dans votre navigateur pour accepter : %link%'
+      link_refuse: 'Et celui-ci pour refuser : %link%'

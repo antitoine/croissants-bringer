@@ -84,18 +84,28 @@ email:
   subject:
     reset_password: '[Croissants Bringer] - Request to change password'
     account_confirmation: '[Croissants Bringer] - Confirmation of your email'
+    participant_approval: '[Croissants Bringer] - Participation confirmation'
   content:
     reset_password:
-      greeting: 'Hi toHero Bringer,'
+      greeting: 'Hi %user%,'
       explanation: |
         You have requested the change of your password for the weekly "Croissant Bringer" selection platform.
         If you are not at the origin of this request, you can ignore this mail.
         Otherwise, click on the button below:
       button: 'Change password'
-      link: 'Or you can copy and paste the following link into your browser:'
+      link: 'Or you can copy and paste the following link into your browser: %link%'
     account_confirmation:
-      greeting: 'Hi toHero Bringer,'
+      greeting: 'Hi %user%,'
       explanation: |
         To validate your account and be part of the "Croissant Bringer" community, click on the button below:
       button: 'Confirm my account'
-      link: 'Or you can copy and paste the following link into your browser:'
+      link: 'Or you can copy and paste the following link into your browser: %link%'
+    participant_approval:
+      greeting: 'Hi %user%,'
+      explanation: 'Can you bring the croissants this Friday? Please confirm as soon as possible!'
+      button_accept: 'Yes'
+      button_accept_title: "Yes, I'll bring the croissants this Friday!"
+      button_refuse: 'No'
+      button_refuse_title: "No, unfortunately I'm not here."
+      link_accept: 'Or you can copy and paste the following link into your browser in order to accept: %link%'
+      link_refuse: 'And this one for refuse: %link%'
