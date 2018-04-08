@@ -159,11 +159,11 @@ class BringerManagerService
         try {
             $this->mailer->sendParticipantApproval($participation);
         } catch (\Twig_Error_Loader $e) {
-            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage() . ' / Trace: ' . $e->getTraceAsString());
+            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage());
         } catch (\Twig_Error_Runtime $e) {
-            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage() . ' / Trace: ' . $e->getTraceAsString());
+            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage());
         } catch (\Twig_Error_Syntax $e) {
-            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage() . ' / Trace: ' . $e->getTraceAsString());
+            $this->logger->critical('Unable to send the request email to the participant "' . $participation->getUser()->getUsername() . '": ' . $e->getMessage());
         }
     }
 
