@@ -58,8 +58,15 @@ class MailerService implements MailerInterface
      */
     public function sendParticipantApproval(Participation $participation)
     {
-        $template = $this->template->render('email/participant_approval.html.twig', [  // TODO create the template
-            'participation' => $participation,
+        $linkAccept = $this->router->generate('participation_accept', ['id' => $participation->getId(), '_locale' => $this->translator->getLocale()],
+            UrlGeneratorInterface::ABSOLUTE_URL);
+        $linkRefuse = $this->router->generate('participation_refuse', ['id' => $participation->getId(), '_locale' => $this->translator->getLocale()],
+            UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $template = $this->template->render('email/participant_approval.html.twig', [
+            'acceptUrl' => $linkAccept,
+            'refuseUrl' => $linkRefuse,
+            'user' => $participation->getUser(),
         ]);
 
         $this->sendMessage(
