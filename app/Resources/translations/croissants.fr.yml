@@ -7,7 +7,7 @@ layout:
 
 home:
   head:
-    title: 'Devient le prochain apporteur de croissants !'
+    title: 'Deviens le prochain apporteur de croissants !'
     register: "S'inscrire"
     text: |
       Participe aux croissants tous les vendredis matins.
@@ -19,7 +19,7 @@ home:
       Un message slack te sera alors envoyé afin que tu comfirmes si tu peux apporter les croissants ce vendredi. Tu devras répondre par oui ou par non.
     yes: 'Oui, tu peux !'
     yes_description: |
-      Super ! Ton rôle va être d'acheter des croissants pour le vendredi matin.
+      Super ! Ton rôle sera d'acheter des croissants pour le vendredi matin.
       Essaye de savoir combien de personnes seront là ce vendredi matin et achète un ou deux croissants/pains au chocolat par participant.
     no: 'Non, tu ne peux pas...'
     no_description: |
@@ -39,7 +39,7 @@ home:
 
 participants:
   table:
-    description: "Plus la position est haute, plus l'utilisateur a de chance d'être le prochain apporteur de croissants."
+    description: "Plus la position est haute, plus l'utilisateur à de chances d'être le prochain apporteur de croissants."
     position: Position
     username: Nom d'utilisateur
     email: Email
