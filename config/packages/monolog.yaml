@@ -1,0 +1,7 @@
+monolog:
+    handlers:
+        bringer:
+            level:    debug
+            type:     stream
+            path:     '%kernel.logs_dir%/bringer.log'
+            channels: [bringer]
