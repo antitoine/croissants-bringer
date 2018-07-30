@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\User;
+use AppBundle\Enum\UserStatusEnum;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
 
@@ -21,7 +22,9 @@ class UserRepository extends EntityRepository
             $qb = $this->createQueryBuilder('u')
                 ->orderBy('u.position', 'DESC')
                 ->where('u.participant = :participant')
+                ->andWhere('u.status = :status')
                 ->setParameter('participant', true)
+                ->setParameter('status', UserStatusEnum::STATUS_EMPLOYED)
                 ->setMaxResults(1);
 
             if (count($excludedUserIdList) > 0) {
@@ -59,7 +62,8 @@ class UserRepository extends EntityRepository
     {
         return $this
             ->getEntityManager()
-            ->createQuery('UPDATE AppBundle:User u SET u.position = u.position + 1')
+            ->createQuery('UPDATE AppBundle:User u SET u.position = u.position + 1 WHERE u.status = :status')
+            ->setParameter('status', UserStatusEnum::STATUS_EMPLOYED)
             ->execute();
     }
 }
