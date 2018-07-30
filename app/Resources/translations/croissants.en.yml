@@ -40,10 +40,12 @@ home:
 participants:
   table:
     description: 'More the position is high more the user have chance to be the next croissants bringer.'
+    description_disabled: "List of people not participating at the moment."
     position: Position
     username: Username
     email: Email
     participation_number: 'Number of participation'
+    count: 'Number to bring: %croissant% croissant(s) and %choco% pain(s) au chocolat.'
 
 history:
   table:

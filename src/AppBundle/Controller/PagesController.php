@@ -40,8 +40,15 @@ class PagesController extends Controller
             'position' => 'DESC',
         ]);
 
+        $nonParticipants = $userRepository->findBy([
+            'participant' => false,
+        ], [
+            'position' => 'DESC',
+        ]);
+
         return $this->render('page/participants.html.twig', [
             'participants' => $participants,
+            'nonParticipants' => $nonParticipants,
             'alertList' => $this->getAlerts(),
         ]);
     }
