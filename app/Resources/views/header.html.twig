@@ -19,7 +19,7 @@
                     <li role="presentation" class="{% if app.request.attributes.get('_route') == 'home' %}active{% endif %}">
                         <a href="{{ path('home') }}">{{ 'layout.menu.home'|trans }}</a>
                     </li>
-                    <li role="presentation" class="{% if app.request.attributes.get('_route') == 'participants' %}active{% endif %}">
+                    <li role="presentation" class="{% if app.request.attributes.get('_route') == 'participant' %}active{% endif %}">
                         <a href="{{ path('participant') }}">{{ 'layout.menu.participants'|trans }}</a>
                     </li>
                     <li role="presentation" class="{% if app.request.attributes.get('_route') == 'history' %}active{% endif %}">
