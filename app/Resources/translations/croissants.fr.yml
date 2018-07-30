@@ -40,10 +40,12 @@ home:
 participants:
   table:
     description: "Plus la position est haute, plus l'utilisateur à de chances d'être le prochain apporteur de croissants."
+    description_disable: "Liste des personnes ne participant pas pour le moment."
     position: Position
     username: Nom d'utilisateur
     email: Email
     participation_number: 'Nombre de participation'
+    count: 'Nombre à rapporter : %croissant% croissant(s) et %choco% pain(s) au chocolat.'
 
 history:
   table:

@@ -24,4 +24,29 @@
         {% endfor %}
         </tbody>
     </table>
+
+    <table class="table">
+        <caption>{{ 'participants.table.description_disable'|trans }}</caption>
+        <thead>
+        <tr>
+            <th>{{ 'participants.table.position'|trans }}</th>
+            <th>{{ 'participants.table.username'|trans }}</th>
+            <th>{{ 'participants.table.email'|trans }}</th>
+            <th>{{ 'participants.table.participation_number'|trans }}</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for nonParticipant in nonParticipants %}
+            <tr>
+                <th scope="row">{{ nonParticipant.position }}</th>
+                <td>{{ nonParticipant.username }}</td>
+                <td>{{ nonParticipant.email }}</td>
+                <td>{{ nonParticipant.participationDoneList|length }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {% set count = (participants | length)  %}
+    <p>{{ 'participants.table.count'|trans({'%croissant%': count, '%choco%': count }) }}</p>
 {% endblock %}
