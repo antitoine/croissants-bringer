@@ -25,7 +25,7 @@ abstract class ParticipationStatusEnum
      * @param  string $statusShortName
      * @return string
      */
-    public static function getStatusName($statusShortName)
+    public static function getFullName($statusShortName)
     {
         if (!isset(static::$typeName[$statusShortName])) {
             return "Unknown type ($statusShortName)";
@@ -37,7 +37,7 @@ abstract class ParticipationStatusEnum
     /**
      * @return array<string>
      */
-    public static function getAvailableStatus()
+    public static function getShortNameList()
     {
         return [
             self::STATUS_FAILED,
@@ -45,6 +45,20 @@ abstract class ParticipationStatusEnum
             self::STATUS_PENDING,
             self::STATUS_REFUSED,
             self::STATUS_ASKING,
+        ];
+    }
+
+    /**
+     * @return array<string>
+     */
+    public static function getFullNameList()
+    {
+        return [
+            static::$typeName[self::STATUS_FAILED],
+            static::$typeName[self::STATUS_DONE],
+            static::$typeName[self::STATUS_PENDING],
+            static::$typeName[self::STATUS_REFUSED],
+            static::$typeName[self::STATUS_ASKING],
         ];
     }
 }
