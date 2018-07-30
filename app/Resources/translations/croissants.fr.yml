@@ -45,7 +45,9 @@ participants:
     username: Nom d'utilisateur
     email: Email
     participation_number: 'Nombre de participation'
-    count: 'Nombre à rapporter : %croissant% croissant(s) et %choco% pain(s) au chocolat.'
+    status: Statut
+    preference: Préférence
+  count: 'Nombre à rapporter : %croissant% croissant(s) et %choco% pain(s) au chocolat.'
 
 history:
   table:

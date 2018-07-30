@@ -3,6 +3,9 @@
 {% trans_default_domain 'croissants' %}
 
 {% block content %}
+
+    <em>{{ 'participants.count'|trans({'%croissant%': nbCroissants, '%choco%': nbPainsAuChocolat }) }}</em>
+
     <table class="table">
         <caption>{{ 'participants.table.description'|trans }}</caption>
         <thead>
@@ -10,6 +13,8 @@
             <th>{{ 'participants.table.position'|trans }}</th>
             <th>{{ 'participants.table.username'|trans }}</th>
             <th>{{ 'participants.table.email'|trans }}</th>
+            <th>{{ 'participants.table.status'|trans }}</th>
+            <th>{{ 'participants.table.preference'|trans }}</th>
             <th>{{ 'participants.table.participation_number'|trans }}</th>
         </tr>
         </thead>
@@ -19,7 +24,19 @@
                 <th scope="row">{{ participant.position }}</th>
                 <td>{{ participant.username }}</td>
                 <td>{{ participant.email }}</td>
+                <td>{{ participant.status }}</td>
+                <td>{{ participant.preference }}</td>
                 <td>{{ participant.participationDoneList|length }}</td>
+            </tr>
+        {% endfor %}
+        {% for consumer in participantsOnlyConsumer %}
+            <tr class="warning">
+                <th scope="row">{{ consumer.position }}</th>
+                <td>{{ consumer.username }}</td>
+                <td>{{ consumer.email }}</td>
+                <td>{{ consumer.status }}</td>
+                <td>{{ consumer.preference }}</td>
+                <td>{{ consumer.participationDoneList|length }}</td>
             </tr>
         {% endfor %}
         </tbody>
@@ -29,24 +46,21 @@
         <caption>{{ 'participants.table.description_disable'|trans }}</caption>
         <thead>
         <tr>
-            <th>{{ 'participants.table.position'|trans }}</th>
             <th>{{ 'participants.table.username'|trans }}</th>
             <th>{{ 'participants.table.email'|trans }}</th>
+            <th>{{ 'participants.table.status'|trans }}</th>
             <th>{{ 'participants.table.participation_number'|trans }}</th>
         </tr>
         </thead>
         <tbody>
         {% for nonParticipant in nonParticipants %}
             <tr>
-                <th scope="row">{{ nonParticipant.position }}</th>
                 <td>{{ nonParticipant.username }}</td>
                 <td>{{ nonParticipant.email }}</td>
+                <td>{{ nonParticipant.status }}</td>
                 <td>{{ nonParticipant.participationDoneList|length }}</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    {% set count = (participants | length)  %}
-    <p>{{ 'participants.table.count'|trans({'%croissant%': count, '%choco%': count }) }}</p>
 {% endblock %}

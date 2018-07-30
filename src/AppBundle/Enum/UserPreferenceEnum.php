@@ -61,4 +61,54 @@ abstract class UserPreferenceEnum
             static::$typeName[self::PREFERENCE_CROISSANT_PAIN_AU_CHOCOLAT],
         ];
     }
+
+    /**
+     * @param  string $statusShortName
+     *
+     * @return integer
+     * @throws \Exception
+     */
+    public static function getNbCroissants($statusShortName)
+    {
+        switch ($statusShortName) {
+            case UserPreferenceEnum::PREFERENCE_CROISSANT_PAIN_AU_CHOCOLAT:
+            case UserPreferenceEnum::PREFERENCE_1_CROISSANTS:
+                return 1;
+                break;
+            case UserPreferenceEnum::PREFERENCE_2_CROISSANTS:
+                return 2;
+                break;
+            case UserPreferenceEnum::PREFERENCE_1_PAIN_AU_CHOCOLAT:
+            case UserPreferenceEnum::PREFERENCE_2_PAIN_AU_CHOCOLAT:
+                return 0;
+                break;
+            default:
+                throw new \Exception("Unknown type ($statusShortName)");
+        }
+    }
+
+    /**
+     * @param  string $statusShortName
+     *
+     * @return integer
+     * @throws \Exception
+     */
+    public static function getNbPainAuChocolat($statusShortName)
+    {
+        switch ($statusShortName) {
+            case UserPreferenceEnum::PREFERENCE_CROISSANT_PAIN_AU_CHOCOLAT:
+            case UserPreferenceEnum::PREFERENCE_1_PAIN_AU_CHOCOLAT:
+                return 1;
+                break;
+            case UserPreferenceEnum::PREFERENCE_2_PAIN_AU_CHOCOLAT:
+                return 2;
+                break;
+            case UserPreferenceEnum::PREFERENCE_1_CROISSANTS:
+            case UserPreferenceEnum::PREFERENCE_2_CROISSANTS:
+                return 0;
+                break;
+            default:
+                throw new \Exception("Unknown type ($statusShortName)");
+        }
+    }
 }
