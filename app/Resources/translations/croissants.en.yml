@@ -45,7 +45,7 @@ participants:
     username: Username
     email: Email
     participation_number: 'Number of participation'
-    count: 'Number to bring : %croissant% croissant(s) et %choco% pain(s) au chocolat.'
+    count: 'Number to bring: %croissant% croissant(s) and %choco% pain(s) au chocolat.'
 
 history:
   table:
