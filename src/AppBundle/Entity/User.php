@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Enum\ParticipationStatusEnum;
+use AppBundle\Enum\UserPreferenceEnum;
+use AppBundle\Enum\UserStatusEnum;
 use Doctrine\Common\Collections\ArrayCollection;
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -52,6 +54,20 @@ class User extends BaseUser
      * @ORM\Column(name="participant", type="boolean")
      */
     protected $participant = true;
+
+    /**
+     * @var string match a status available in the {@see UserStatusEnum} class
+     *
+     * @ORM\Column(name="status", type="string", length=255, nullable=false)
+     */
+    protected $status = UserStatusEnum::STATUS_EMPLOYED;
+
+    /**
+     * @var string match a preference available in the {@see UserPreferenceEnum} class
+     *
+     * @ORM\Column(name="preference", type="string", length=255, nullable=false)
+     */
+    protected $preference = UserPreferenceEnum::PREFERENCE_CROISSANT_PAIN_AU_CHOCOLAT;
 
     public function __construct()
     {
@@ -116,6 +132,50 @@ class User extends BaseUser
     public function setParticipant($participant)
     {
         $this->participant = $participant;
+    }
+
+    /**
+     * @return string
+     * @see UserStatusEnum
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param string $status
+     * @see UserStatusEnum
+     */
+    public function setStatus($status)
+    {
+        if (!in_array($status, UserStatusEnum::getShortNameList())) {
+            throw new \InvalidArgumentException('Invalid status');
+        }
+
+        $this->status = $status;
+    }
+
+    /**
+     * @return string
+     * @see UserPreferenceEnum
+     */
+    public function getPreference()
+    {
+        return $this->preference;
+    }
+
+    /**
+     * @param string $preference
+     * @see UserPreferenceEnum
+     */
+    public function setPreference($preference)
+    {
+        if (!in_array($preference, UserPreferenceEnum::getShortNameList())) {
+            throw new \InvalidArgumentException('Invalid preference');
+        }
+
+        $this->preference = $preference;
     }
 
     /**

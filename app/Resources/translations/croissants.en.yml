@@ -63,10 +63,14 @@ history:
 profile:
   show:
     position: 'Current position'
+    participant:
+      title: Participation
+      active: active
+      inactive: inactive
     status:
       title: Status
-      active: Active
-      inactive: Inactive
+    preference:
+      title: Preference
 
 alerts:
   participant_approval:

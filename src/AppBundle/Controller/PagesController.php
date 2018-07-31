@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Participation;
 use AppBundle\Entity\User;
 use AppBundle\Enum\ParticipationStatusEnum;
+use AppBundle\Enum\UserPreferenceEnum;
+use AppBundle\Enum\UserStatusEnum;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -36,6 +38,17 @@ class PagesController extends Controller
 
         $participants = $userRepository->findBy([
             'participant' => true,
+            'status' => UserStatusEnum::STATUS_EMPLOYED,
+        ], [
+            'position' => 'DESC',
+        ]);
+
+        $participantsOnlyConsumer = $userRepository->findBy([
+            'participant' => true,
+            'status' => [
+                UserStatusEnum::STATUS_TRAINEE,
+                UserStatusEnum::STATUS_TRIAL,
+            ],
         ], [
             'position' => 'DESC',
         ]);
@@ -46,9 +59,25 @@ class PagesController extends Controller
             'position' => 'DESC',
         ]);
 
+        $nbCroissants = 0;
+        $nbPainsAuChocolat = 0;
+        /** @var User $participant */
+        foreach ($participants as $participant) {
+            $nbCroissants += UserPreferenceEnum::getNbCroissants($participant->getPreference());
+            $nbPainsAuChocolat += UserPreferenceEnum::getNbPainAuChocolat($participant->getPreference());
+        }
+        /** @var User $participant */
+        foreach ($participantsOnlyConsumer as $participant) {
+            $nbCroissants += UserPreferenceEnum::getNbCroissants($participant->getPreference());
+            $nbPainsAuChocolat += UserPreferenceEnum::getNbPainAuChocolat($participant->getPreference());
+        }
+
         return $this->render('page/participants.html.twig', [
             'participants' => $participants,
             'nonParticipants' => $nonParticipants,
+            'participantsOnlyConsumer' => $participantsOnlyConsumer,
+            'nbCroissants' => $nbCroissants,
+            'nbPainsAuChocolat' => $nbPainsAuChocolat,
             'alertList' => $this->getAlerts(),
         ]);
     }

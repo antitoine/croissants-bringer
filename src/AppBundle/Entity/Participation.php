@@ -117,7 +117,7 @@ class Participation
      */
     public function setStatus($status)
     {
-        if (!in_array($status, ParticipationStatusEnum::getAvailableStatus())) {
+        if (!in_array($status, ParticipationStatusEnum::getShortNameList())) {
             throw new \InvalidArgumentException('Invalid status');
         }
 
