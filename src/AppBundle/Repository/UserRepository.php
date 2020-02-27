@@ -23,7 +23,9 @@ class UserRepository extends EntityRepository
                 ->orderBy('u.position', 'DESC')
                 ->where('u.participant = :participant')
                 ->andWhere('u.status = :status')
+                ->andWhere('u.enabled = :enabled')
                 ->setParameter('participant', true)
+                ->setParameter('enabled', true)
                 ->setParameter('status', UserStatusEnum::STATUS_EMPLOYED)
                 ->setMaxResults(1);
 
@@ -62,8 +64,9 @@ class UserRepository extends EntityRepository
     {
         return $this
             ->getEntityManager()
-            ->createQuery('UPDATE AppBundle:User u SET u.position = u.position + 1 WHERE u.status = :status')
+            ->createQuery('UPDATE AppBundle:User u SET u.position = u.position + 1 WHERE u.status = :status AND u.enabled = :enabled')
             ->setParameter('status', UserStatusEnum::STATUS_EMPLOYED)
+            ->setParameter('enabled', true)
             ->execute();
     }
 }
