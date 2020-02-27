@@ -38,6 +38,7 @@ class PagesController extends Controller
 
         $participants = $userRepository->findBy([
             'participant' => true,
+            'enabled' => true,
             'status' => UserStatusEnum::STATUS_EMPLOYED,
         ], [
             'position' => 'DESC',
@@ -45,6 +46,7 @@ class PagesController extends Controller
 
         $participantsOnlyConsumer = $userRepository->findBy([
             'participant' => true,
+            'enabled' => true,
             'status' => [
                 UserStatusEnum::STATUS_TRAINEE,
                 UserStatusEnum::STATUS_TRIAL,
@@ -55,6 +57,7 @@ class PagesController extends Controller
 
         $nonParticipants = $userRepository->findBy([
             'participant' => false,
+            'enabled' => true,
         ], [
             'position' => 'DESC',
         ]);
